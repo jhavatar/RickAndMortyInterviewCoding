@@ -1,12 +1,16 @@
 package io.chthonic.rickmortychars.presentation.main
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.chthonic.rickmortychars.domain.GetCharactersUsecase
 import io.chthonic.rickmortychars.domain.model.CharacterInfo
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -14,36 +18,25 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val getCharactersUsecase: GetCharactersUsecase
+    getCharactersUsecase: GetCharactersUsecase
 ) : ViewModel() {
 
-    private val _loadingIsVisible = MutableStateFlow<Boolean>(false)
+    private val _loadingIsVisible = MutableStateFlow<Boolean>(true)
     val loadingIsVisible: StateFlow<Boolean>
         get() = _loadingIsVisible
 
-    private val _characterInfosToDisplay = MutableStateFlow<List<CharacterInfo>?>(null)
-    val characterInfosToDisplay: StateFlow<List<CharacterInfo>?>
-        get() = _characterInfosToDisplay
+    val characterInfosToDisplay: Flow<PagingData<CharacterInfo>> =
+        getCharactersUsecase.execute()
+            .cachedIn(viewModelScope)
 
-    init {
+    fun onLoadingStatesChanged(loadStates: CombinedLoadStates) {
+        val showLoading = loadStates.refresh is LoadState.Loading
         viewModelScope.launch {
-            getCharacters()
-        }
-    }
-
-    private suspend fun getCharacters() {
-        _loadingIsVisible.value = true
-        try {
-            _characterInfosToDisplay.value = getCharactersUsecase.execute()
-        } catch (e: Exception) {
-            Log.e(MainViewModel::class.java.simpleName, "getCharactersUsecase failed", e)
-            _characterInfosToDisplay.value = emptyList()
-        }
-
-        viewModelScope.launch {
-            // Wait for results to render before hide loading indicator
-            delay(250)
-            _loadingIsVisible.value = false
+            // delay hiding loading until content rendered
+            if (!showLoading) {
+                delay(250)
+            }
+            _loadingIsVisible.value = showLoading
         }
     }
 }

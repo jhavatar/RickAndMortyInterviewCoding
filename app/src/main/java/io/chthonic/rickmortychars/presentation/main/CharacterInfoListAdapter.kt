@@ -2,15 +2,15 @@ package io.chthonic.rickmortychars.presentation.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import io.chthonic.rickmortychars.databinding.CharInfoItemBinding
 import io.chthonic.rickmortychars.domain.model.CharacterInfo
 
 class CharacterInfoListAdapter() :
-    ListAdapter<CharacterInfo, CharacterInfoListAdapter.ViewHolder>(CharacterInfoDiffCallback()) {
+    PagingDataAdapter<CharacterInfo, CharacterInfoListAdapter.ViewHolder>(CharacterInfoDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder.from(parent)
@@ -32,10 +32,12 @@ class CharacterInfoListAdapter() :
             }
         }
 
-        fun bind(characterInfo: CharacterInfo) {
-            // Note, img library caches results
-            binding.charImage.load(characterInfo.image)
-            binding.charName.text = characterInfo.name
+        fun bind(characterInfo: CharacterInfo?) {
+            characterInfo?.apply {
+                // Note, img library caches results
+                binding.charImage.load(image)
+                binding.charName.text = name
+            }
         }
     }
 }
