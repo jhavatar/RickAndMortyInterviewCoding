@@ -9,11 +9,9 @@ import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.chthonic.rickmortychars.domain.GetCharactersUsecase
 import io.chthonic.rickmortychars.domain.model.CharacterInfo
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,12 +29,6 @@ class MainViewModel @Inject constructor(
 
     fun onLoadingStatesChanged(loadStates: CombinedLoadStates) {
         val showLoading = loadStates.refresh is LoadState.Loading
-        viewModelScope.launch {
-            // delay hiding loading until content rendered
-            if (!showLoading) {
-                delay(250)
-            }
-            _loadingIsVisible.value = showLoading
-        }
+        _loadingIsVisible.value = showLoading
     }
 }

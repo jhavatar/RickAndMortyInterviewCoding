@@ -1,5 +1,6 @@
 package io.chthonic.rickmortychars.data
 
+import android.content.Context
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -7,6 +8,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.chthonic.rickmortychars.data.api.RickMortyApi
+import io.chthonic.rickmortychars.data.database.CharactersDao
+import io.chthonic.rickmortychars.data.database.DatabaseFactory
+import io.chthonic.rickmortychars.data.database.RickMortyDatabase
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -46,4 +50,13 @@ class DataSingletonModule {
     @Singleton
     fun provideRickMortyApi(retrofit: Retrofit): RickMortyApi =
         retrofit.create(RickMortyApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideDatabase(context: Context): RickMortyDatabase =
+        DatabaseFactory.createDatabase(context)
+
+    @Provides
+    fun provideCharactersDao(db: RickMortyDatabase): CharactersDao =
+        db.charactersDao()
 }

@@ -1,4 +1,4 @@
-package io.chthonic.rickmortychars.domain
+package io.chthonic.rickmortychars.data
 
 import android.util.Log
 import kotlinx.coroutines.delay
