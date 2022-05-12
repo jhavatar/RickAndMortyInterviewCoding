@@ -1,4 +1,6 @@
 # Rick and Morty interview coding task
+
+## Task
 Choose a timeframe to complete the task, e.g. 2 hours. Build an app to the best of your ability in the allotted time that implements a feed of images from the following endpoint: https://rickandmortyapi.com/api/character/
 
 Documentation: https://rickandmortyapi.com/documentation/#get-all-characters
@@ -13,3 +15,6 @@ Ideas for optional, bonus features:
 - Displaying more information of each character
 - Retry logic for failed requests
 - Offline storage
+
+## Implementation
+Everything in the first commit was done in 2 hours. Later commits are just the remaining, mentioned optional features added with no time constraints.
