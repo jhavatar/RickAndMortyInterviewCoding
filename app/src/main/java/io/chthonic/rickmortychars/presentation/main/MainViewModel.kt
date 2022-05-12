@@ -23,12 +23,23 @@ class MainViewModel @Inject constructor(
     val loadingIsVisible: StateFlow<Boolean>
         get() = _loadingIsVisible
 
+    private val _errorMessageToDisplay = MutableStateFlow<String?>(null)
+    val errorMessageToDisplay: StateFlow<String?>
+        get() = _errorMessageToDisplay
+
     val characterInfosToDisplay: Flow<PagingData<CharacterInfo>> =
         getCharactersUsecase.execute()
             .cachedIn(viewModelScope)
 
     fun onLoadingStatesChanged(loadStates: CombinedLoadStates) {
-        val showLoading = loadStates.refresh is LoadState.Loading
-        _loadingIsVisible.value = showLoading
+        _loadingIsVisible.value = loadStates.refresh is LoadState.Loading
+        _errorMessageToDisplay.value = when (val appendState = loadStates.append) {
+            is LoadState.Error -> appendState.error.message ?: "Loading characters failed"
+            else -> null
+        }
+    }
+
+    fun onErrorDisplayed() {
+        _errorMessageToDisplay.value = null
     }
 }

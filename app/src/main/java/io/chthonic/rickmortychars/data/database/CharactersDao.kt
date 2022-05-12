@@ -8,6 +8,7 @@ import androidx.room.Query
 import io.chthonic.rickmortychars.data.model.CHARACTER_TABLE_NAME
 import io.chthonic.rickmortychars.data.model.CharacterResult
 
+
 @Dao
 interface CharactersDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -18,4 +19,8 @@ interface CharactersDao {
 
     @Query("DELETE FROM $CHARACTER_TABLE_NAME")
     suspend fun clearAll()
+
+    @Query("SELECT COUNT(id) FROM $CHARACTER_TABLE_NAME")
+    suspend fun getCharacterCount(): Int
+
 }

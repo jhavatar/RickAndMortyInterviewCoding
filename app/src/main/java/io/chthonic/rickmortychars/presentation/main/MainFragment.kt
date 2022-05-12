@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import io.chthonic.rickmortychars.databinding.MainFragmentBinding
 import kotlinx.coroutines.flow.collectLatest
@@ -61,9 +62,22 @@ class MainFragment : Fragment() {
         }
 
         lifecycleScope.launchWhenStarted {
-            viewModel.characterInfosToDisplay.collect { characterInfoList ->
-                characterInfoListAdapter.submitData(characterInfoList)
+            viewModel.characterInfosToDisplay.collect { characterInfoPagingData ->
+                characterInfoListAdapter.submitData(characterInfoPagingData)
             }
         }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.errorMessageToDisplay.collect { errorMessage ->
+                if (errorMessage != null) {
+                    displayError(errorMessage)
+                    viewModel.onErrorDisplayed()
+                }
+            }
+        }
+    }
+
+    private fun displayError(errorMessage: String) {
+        Snackbar.make(binding.main, errorMessage, Snackbar.LENGTH_LONG).show()
     }
 }

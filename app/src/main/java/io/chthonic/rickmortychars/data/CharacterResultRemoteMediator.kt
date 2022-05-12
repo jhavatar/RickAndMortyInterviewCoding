@@ -24,9 +24,12 @@ class CharacterResultRemoteMediator @Inject constructor(
     private val charactersDao: CharactersDao
 ) : RemoteMediator<Int, CharacterResult>() {
 
-    override suspend fun initialize(): InitializeAction {
-        return InitializeAction.SKIP_INITIAL_REFRESH
-    }
+    override suspend fun initialize(): InitializeAction =
+        if (charactersDao.getCharacterCount() > 0) {
+            InitializeAction.SKIP_INITIAL_REFRESH
+        } else {
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        }
 
     override suspend fun load(
         loadType: LoadType,
