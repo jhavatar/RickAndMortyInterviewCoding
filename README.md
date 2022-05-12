@@ -16,5 +16,5 @@ Ideas for optional, bonus features:
 - Retry logic for failed requests
 - Offline storage
 
-## Implementation
+## My implementation
 Everything in the first commit was done in 2 hours. Later commits are just the remaining, mentioned optional features added with no time constraints.
