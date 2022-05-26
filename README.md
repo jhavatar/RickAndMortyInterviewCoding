@@ -17,4 +17,6 @@ Ideas for optional, bonus features:
 - Offline storage
 
 ## My implementation
-Everything in the first commit was done in 2 hours. Later commits are just the remaining, mentioned optional features added with no time constraints.
+Everything in the first commit was done in 2 hours. Later commits are just the remaining, listed optional features added with no time constraints.
+
+Note, if this was a real app with no time constraint the code would be considerably "cleaner" e.g. only interfaces visible between layers.
