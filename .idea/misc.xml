@@ -3,9 +3,22 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/compose-model-1657138714303.xml" value="0.17989864864864866" />
+        <entry key="../../../../layout/compose-model-1657234048810.xml" value="0.16089527027027026" />
+        <entry key="../../../../layout/compose-model-1657262128252.xml" value="0.16173986486486486" />
+        <entry key="../../../../layout/compose-model-1657379932307.xml" value="0.25" />
+        <entry key="../../../../layout/compose-model-1657382057553.xml" value="1.0" />
+        <entry key="../../../../layout/compose-model-1657385244162.xml" value="0.2" />
+        <entry key="../../../../layout/compose-model-1657385977764.xml" value="0.1411901983663944" />
+        <entry key="../../../../layout/compose-model-1657387143355.xml" value="0.19136522753792298" />
+        <entry key="../../../../layout/compose-model-1657387807215.xml" value="0.38981481481481484" />
+        <entry key="../../../../layout/compose-model-1657388123505.xml" value="1.1" />
+        <entry key="../../../../layout/compose-model-1657388127457.xml" value="0.23395270270270271" />
         <entry key="app/src/main/res/layout/char_info_item.xml" value="0.20208333333333334" />
         <entry key="app/src/main/res/layout/main_activity.xml" value="0.20208333333333334" />
         <entry key="app/src/main/res/layout/main_fragment.xml" value="0.24114583333333334" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.252" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.252" />
       </map>
     </option>
   </component>
