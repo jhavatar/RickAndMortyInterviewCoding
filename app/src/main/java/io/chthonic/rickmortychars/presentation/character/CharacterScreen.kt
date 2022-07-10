@@ -36,7 +36,7 @@ fun CharacterScreen(
 }
 
 @Composable
-fun CharacterScreenContent(url: String) {
+private fun CharacterScreenContent(url: String) {
     AsyncImage(
         model = url,
         placeholder = painterResource(R.drawable.rickmoryplaceholder),

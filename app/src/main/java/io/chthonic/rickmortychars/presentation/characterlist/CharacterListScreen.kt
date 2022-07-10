@@ -97,7 +97,9 @@ private fun CharacterListContent(
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        modifier = Modifier.fillMaxWidth().fillMaxHeight()
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
     ) {
         items(lazyCharInfoItems) { item ->
             item?.let {
@@ -112,7 +114,7 @@ private fun CharacterItem(
     charInfo: CharacterInfo,
     onClick: () -> Unit
 ) {
-    Box() {
+    Box {
         AsyncImage(
             model = charInfo.image,
             placeholder = painterResource(R.drawable.rickmoryplaceholder),
