@@ -1,4 +1,4 @@
-package io.chthonic.rickmortychars.domain.model
+package io.chthonic.rickmortychars.domain.models
 
 data class CharacterInfo(
     val id: Int,

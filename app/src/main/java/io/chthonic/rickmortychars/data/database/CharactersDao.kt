@@ -5,8 +5,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import io.chthonic.rickmortychars.data.model.CHARACTER_TABLE_NAME
-import io.chthonic.rickmortychars.data.model.CharacterResult
+import io.chthonic.rickmortychars.data.models.CHARACTER_TABLE_NAME
+import io.chthonic.rickmortychars.data.models.CharacterResult
 
 
 @Dao
@@ -22,4 +22,7 @@ interface CharactersDao {
 
     @Query("SELECT COUNT(id) FROM $CHARACTER_TABLE_NAME")
     suspend fun getCharacterCount(): Int
+
+    @Query("SELECT * FROM $CHARACTER_TABLE_NAME WHERE id = :id")
+    suspend fun getCharacter(id: Int): CharacterResult?
 }

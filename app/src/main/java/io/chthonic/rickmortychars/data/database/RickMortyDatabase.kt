@@ -2,7 +2,7 @@ package io.chthonic.rickmortychars.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import io.chthonic.rickmortychars.data.model.CharacterResult
+import io.chthonic.rickmortychars.data.models.CharacterResult
 
 private const val CURRENT_DATABASE_VERSION = 1
 

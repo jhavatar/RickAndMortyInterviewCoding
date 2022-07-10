@@ -9,7 +9,7 @@ import dagger.Lazy
 import io.chthonic.rickmortychars.data.api.RickMortyApi
 import io.chthonic.rickmortychars.data.database.CharactersDao
 import io.chthonic.rickmortychars.data.database.RickMortyDatabase
-import io.chthonic.rickmortychars.data.model.CharacterResult
+import io.chthonic.rickmortychars.data.models.CharacterResult
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject

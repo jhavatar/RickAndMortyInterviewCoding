@@ -10,6 +10,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 data class AppContainerState(
@@ -17,6 +19,9 @@ data class AppContainerState(
     val snackbarScope: CoroutineScope,
     val navController: NavHostController
 ) {
+    private val _showAppBarTitle = MutableStateFlow<String?>(null)
+    val showAppBarTitle = _showAppBarTitle.asStateFlow()
+
     fun showSnackbar(message: String, duration: SnackbarDuration = SnackbarDuration.Short) {
         snackbarScope.launch {
             scaffoldState.snackbarHostState.showSnackbar(
@@ -24,6 +29,10 @@ data class AppContainerState(
                 duration = duration
             )
         }
+    }
+
+    fun updateAppBarTitle(title: String?) {
+        _showAppBarTitle.value = title
     }
 }
 
