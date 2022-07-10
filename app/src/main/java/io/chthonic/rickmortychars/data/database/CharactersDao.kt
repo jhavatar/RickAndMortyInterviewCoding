@@ -22,5 +22,4 @@ interface CharactersDao {
 
     @Query("SELECT COUNT(id) FROM $CHARACTER_TABLE_NAME")
     suspend fun getCharacterCount(): Int
-
 }
