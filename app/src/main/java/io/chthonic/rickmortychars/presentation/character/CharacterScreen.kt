@@ -30,7 +30,8 @@ fun CharacterScreen(
     }
     CharacterScreenContent(
         viewModel.imageUrlToShow.collectAsStateLifecycleAware(
-            initial = viewModel.imageUrlToShow.value
+            initial = viewModel.imageUrlToShow.value,
+            scope = viewModel.viewModelScope
         ).value ?: ""
     )
 }

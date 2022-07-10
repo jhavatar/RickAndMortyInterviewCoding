@@ -9,7 +9,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
@@ -18,10 +21,9 @@ fun <T> rememberFlow(
     flow: Flow<T>,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ): Flow<T> {
-    return remember(
-        key1 = flow,
-        key2 = lifecycleOwner
-    ) { flow.flowWithLifecycle(lifecycleOwner.lifecycle, Lifecycle.State.STARTED) }
+    return remember(key1 = flow, key2 = lifecycleOwner) {
+        flow.flowWithLifecycle(lifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+    }
 }
 
 @Composable
@@ -49,10 +51,9 @@ fun <T : R, R> Flow<T>.collectAsStateLifecycleAware(
 @Composable
 fun <T : R, R> StateFlow<T>.collectAsStateLifecycleAware(
     initial: R,
-    context: CoroutineContext = EmptyCoroutineContext,
-    scope: CoroutineScope,
+    scope: CoroutineScope = CoroutineScope(EmptyCoroutineContext)
 ): State<R> {
     val lifecycleAwareFlow =
         rememberStateFlow(flow = this, scope = scope, initial = initial)
-    return lifecycleAwareFlow.collectAsState(initial = initial, context = context)
+    return lifecycleAwareFlow.collectAsState(initial = initial, context = scope.coroutineContext)
 }
