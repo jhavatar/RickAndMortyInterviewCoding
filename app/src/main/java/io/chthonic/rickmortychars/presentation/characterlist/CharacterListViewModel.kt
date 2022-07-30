@@ -8,6 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.chthonic.rickmortychars.domain.GetCharacterListUsecase
 import io.chthonic.rickmortychars.domain.models.CharacterInfo
 import io.chthonic.rickmortychars.presentation.Destination
+import io.chthonic.rickmortychars.presentation.wrapper.SideEffect
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,21 +24,19 @@ class CharacterListViewModel @Inject constructor(
         getCharacterListUsecase.execute()
             .cachedIn(viewModelScope)
 
-    private val _navigate = MutableStateFlow<NavigationTarget?>(null)
-    val navigate: StateFlow<NavigationTarget?>
-        get() = _navigate.asStateFlow()
+    val _navigateSideEffect = MutableStateFlow<SideEffect<NavigationTarget>?>(null)
+    val navigateSideEffect: StateFlow<SideEffect<NavigationTarget>?> =
+        _navigateSideEffect.asStateFlow()
 
     fun onCharacterClick(charInfo: CharacterInfo) {
-        _navigate.value = NavigationTarget.CharacterScreen(
+        NavigationTarget.CharacterScreen(
             Destination.Character.CharacterArgument(
                 id = charInfo.id,
                 imageUrl = charInfo.image
             )
-        )
-    }
-
-    fun onNavigationObserved() {
-        _navigate.value = null
+        ).let {
+            _navigateSideEffect.value = SideEffect(it)
+        }
     }
 
     sealed class NavigationTarget() {

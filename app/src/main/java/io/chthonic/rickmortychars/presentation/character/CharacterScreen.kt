@@ -20,19 +20,17 @@ fun CharacterScreen(
     viewModel: CharacterViewModel = hiltViewModel(),
     updateAppBarTitle: (String?) -> Unit
 ) {
-    viewModel.titleToShow.collectAsStateLifecycleAware(
-        initial = null,
+    val state = viewModel.state.collectAsStateLifecycleAware(
+        initial = CharacterViewModel.State(),
         scope = viewModel.viewModelScope
-    ).value.let {
-        LaunchedEffect(it) {
-            updateAppBarTitle(it)
-        }
+    ).value
+
+    LaunchedEffect(state.titleToShow) {
+        updateAppBarTitle(state.titleToShow)
     }
+
     CharacterScreenContent(
-        viewModel.imageUrlToShow.collectAsStateLifecycleAware(
-            initial = viewModel.imageUrlToShow.value,
-            scope = viewModel.viewModelScope
-        ).value ?: ""
+        state.imageUrlToShow
     )
 }
 

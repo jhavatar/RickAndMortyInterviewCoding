@@ -51,19 +51,20 @@ fun CharacterListScreen(
         updateAppBarTitle(context.resources.getString(R.string.app_name))
     }
 
-    viewModel.navigate.collectAsStateLifecycleAware(
+    viewModel.navigateSideEffect.collectAsStateLifecycleAware(
         initial = null,
         scope = viewModel.viewModelScope
-    ).value?.let { navTarget ->
-        when (navTarget) {
+    ).value?.let { sideEffect ->
+        when (val navTarget = sideEffect.getContentIfNotHandled()) {
             is CharacterListViewModel.NavigationTarget.CharacterScreen -> {
-                viewModel.onNavigationObserved()
                 navController.navigateWithObject(
                     route = Destination.Character.route,
                     arguments = bundleOf(
                         Destination.Character.ARGUMENT_KEY to navTarget.characterArgument
                     )
                 )
+            }
+            else -> { // ignore
             }
         }
     }

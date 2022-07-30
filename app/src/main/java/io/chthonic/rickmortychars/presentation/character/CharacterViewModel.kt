@@ -13,27 +13,42 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CharacterViewModel @Inject constructor(
+class CharacterViewModel constructor(
     savedState: SavedStateHandle,
-    getCharacterUsecase: GetCharacterUseCase
+    getCharacterUsecase: GetCharacterUseCase,
+    initStateState: State
 ) : ViewModel() {
+
+    @Inject
+    constructor(
+        savedState: SavedStateHandle,
+        getCharacterUsecase: GetCharacterUseCase
+    ) : this(
+        savedState = savedState,
+        getCharacterUsecase = getCharacterUsecase,
+        initStateState = State()
+    )
+
+    data class State(
+        val imageUrlToShow: String = "",
+        val titleToShow: String = ""
+    )
 
     private val charArgument: Destination.Character.CharacterArgument? =
         savedState[Destination.Character.ARGUMENT_KEY]
 
-    private val _imageUrlToShow = MutableStateFlow(charArgument?.imageUrl)
-    val imageUrlToShow: StateFlow<String?>
-        get() = _imageUrlToShow.asStateFlow()
-
-    private val _titleToShow = MutableStateFlow<String?>(null)
-    val titleToShow: StateFlow<String?>
-        get() = _titleToShow.asStateFlow()
+    private val _state = MutableStateFlow(
+        initStateState.copy(
+            imageUrlToShow = charArgument?.imageUrl ?: initStateState.imageUrlToShow
+        )
+    )
+    val state: StateFlow<State> = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
             charArgument?.id?.let {
                 getCharacterUsecase.execute(it)?.let {
-                    _titleToShow.value = it.name
+                    _state.value = state.value.copy(titleToShow = it.name)
                 }
             }
         }
