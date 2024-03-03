@@ -39,7 +39,7 @@ class CharacterListViewModel @Inject constructor(
         }
     }
 
-    sealed class NavigationTarget() {
+    sealed class NavigationTarget {
         data class CharacterScreen(
             val characterArgument: Destination.Character.CharacterArgument
         ) : NavigationTarget()

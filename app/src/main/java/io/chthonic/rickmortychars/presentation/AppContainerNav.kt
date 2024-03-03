@@ -24,7 +24,6 @@ fun AppContainerNavHost(
             showSnackbar = appContainerState::showSnackbar,
             navController = appContainerState.navController,
             updateAppBarTitle = appContainerState::updateAppBarTitle
-
         )
     }
     composable(Destination.Character.route) {
@@ -33,9 +32,9 @@ fun AppContainerNavHost(
 }
 
 sealed class Destination(val route: String) {
-    object CharacterList : Destination("characterlist")
+    data object CharacterList : Destination("characterlist")
 
-    object Character : Destination("character") {
+    data object Character : Destination("character") {
         const val ARGUMENT_KEY: String = "charArg"
 
         @Parcelize
