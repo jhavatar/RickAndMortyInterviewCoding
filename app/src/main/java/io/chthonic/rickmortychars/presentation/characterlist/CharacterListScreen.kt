@@ -20,7 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.os.bundleOf
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
@@ -31,10 +30,9 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import io.chthonic.rickmortychars.R
 import io.chthonic.rickmortychars.domain.models.CharacterInfo
-import io.chthonic.rickmortychars.presentation.Destination
 import io.chthonic.rickmortychars.presentation.ktx.collectAsStateLifecycleAware
 import io.chthonic.rickmortychars.presentation.ktx.items
-import io.chthonic.rickmortychars.presentation.ktx.navigateWithObject
+import io.chthonic.rickmortychars.presentation.nav.Destination
 import io.chthonic.rickmortychars.presentation.theme.WhiteTrans50
 import io.chthonic.rickmortychars.presentation.views.LoadingProgress
 import kotlinx.coroutines.flow.flowOf
@@ -57,13 +55,9 @@ fun CharacterListScreen(
     ).value?.let { sideEffect ->
         when (val navTarget = sideEffect.getContentIfNotHandled()) {
             is CharacterListViewModel.NavigationTarget.CharacterScreen -> {
-                navController.navigateWithObject(
-                    route = Destination.Character.route,
-                    arguments = bundleOf(
-                        Destination.Character.ARGUMENT_KEY to navTarget.characterArgument
-                    )
-                )
+                navController.navigate(Destination.Character.buildUniqueRoute(navTarget.characterId))
             }
+
             else -> { // ignore
             }
         }
@@ -80,6 +74,7 @@ fun CharacterListScreen(
             loadState.error.message ?: "Loading characters failed",
             SnackbarDuration.Short
         )
+
         else -> {}
     }
     when (val loadState = lazyCharInfoItems.loadState.append) {
@@ -87,6 +82,7 @@ fun CharacterListScreen(
             loadState.error.message ?: "Loading characters failed",
             SnackbarDuration.Short
         )
+
         else -> {}
     }
 }
@@ -118,7 +114,7 @@ private fun CharacterItem(
     Box {
         AsyncImage(
             model = charInfo.image,
-            placeholder = painterResource(R.drawable.rickmoryplaceholder),
+            placeholder = painterResource(R.drawable.rickmortyplaceholder),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier

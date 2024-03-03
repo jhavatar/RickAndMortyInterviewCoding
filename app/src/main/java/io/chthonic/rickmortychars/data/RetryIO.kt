@@ -1,7 +1,7 @@
 package io.chthonic.rickmortychars.data
 
-import android.util.Log
 import kotlinx.coroutines.delay
+import timber.log.Timber
 
 suspend fun <T> retryIO(
     times: Int = Int.MAX_VALUE,
@@ -15,7 +15,7 @@ suspend fun <T> retryIO(
         try {
             return block()
         } catch (e: Exception) {
-            Log.e("retryIO", "retryIO ${iteration + 1} failed", e)
+            Timber.e(e, "retryIO iteration ${iteration + 1} failed")
         }
         delay(currentDelay)
         currentDelay = (currentDelay * factor).toLong().coerceAtMost(maxDelay)

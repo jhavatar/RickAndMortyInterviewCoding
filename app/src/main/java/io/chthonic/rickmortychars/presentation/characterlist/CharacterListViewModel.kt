@@ -7,7 +7,6 @@ import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.chthonic.rickmortychars.domain.GetCharacterListUsecase
 import io.chthonic.rickmortychars.domain.models.CharacterInfo
-import io.chthonic.rickmortychars.presentation.Destination
 import io.chthonic.rickmortychars.presentation.wrapper.SideEffect
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,10 +29,7 @@ class CharacterListViewModel @Inject constructor(
 
     fun onCharacterClick(charInfo: CharacterInfo) {
         NavigationTarget.CharacterScreen(
-            Destination.Character.CharacterArgument(
-                id = charInfo.id,
-                imageUrl = charInfo.image
-            )
+            characterId = charInfo.id,
         ).let {
             _navigateSideEffect.value = SideEffect(it)
         }
@@ -41,7 +37,7 @@ class CharacterListViewModel @Inject constructor(
 
     sealed class NavigationTarget {
         data class CharacterScreen(
-            val characterArgument: Destination.Character.CharacterArgument
+            val characterId: Int,
         ) : NavigationTarget()
     }
 }

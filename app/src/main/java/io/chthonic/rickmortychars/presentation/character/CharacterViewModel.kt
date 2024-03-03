@@ -1,54 +1,55 @@
 package io.chthonic.rickmortychars.presentation.character
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.chthonic.rickmortychars.domain.GetCharacterUseCase
-import io.chthonic.rickmortychars.presentation.Destination
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class CharacterViewModel constructor(
-    savedState: SavedStateHandle,
+@HiltViewModel(assistedFactory = CharacterViewModel.CharacterViewModelFactory::class)
+class CharacterViewModel(
+    private val characterId: Int?,
     getCharacterUsecase: GetCharacterUseCase,
-    initStateState: State
+    initStateState: State,
 ) : ViewModel() {
 
-    @Inject
+    @AssistedInject
     constructor(
-        savedState: SavedStateHandle,
-        getCharacterUsecase: GetCharacterUseCase
+        @Assisted characterId: Int?,
+        getCharacterUsecase: GetCharacterUseCase,
     ) : this(
-        savedState = savedState,
+        characterId = characterId,
         getCharacterUsecase = getCharacterUsecase,
         initStateState = State()
     )
+
+    @AssistedFactory
+    interface CharacterViewModelFactory {
+        fun create(characterId: Int?): CharacterViewModel
+    }
 
     data class State(
         val imageUrlToShow: String = "",
         val titleToShow: String = ""
     )
 
-    private val charArgument: Destination.Character.CharacterArgument? =
-        savedState[Destination.Character.ARGUMENT_KEY]
-
-    private val _state = MutableStateFlow(
-        initStateState.copy(
-            imageUrlToShow = charArgument?.imageUrl ?: initStateState.imageUrlToShow
-        )
-    )
+    private val _state = MutableStateFlow(initStateState)
     val state: StateFlow<State> = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
-            charArgument?.id?.let {
+            characterId?.let {
                 getCharacterUsecase.execute(it)?.let {
-                    _state.value = state.value.copy(titleToShow = it.name)
+                    _state.value = state.value.copy(
+                        titleToShow = it.name,
+                        imageUrlToShow = it.image,
+                    )
                 }
             }
         }

@@ -17,9 +17,14 @@ import io.chthonic.rickmortychars.presentation.ktx.collectAsStateLifecycleAware
 
 @Composable
 fun CharacterScreen(
-    viewModel: CharacterViewModel = hiltViewModel(),
+    characterId: Int?,
     updateAppBarTitle: (String?) -> Unit
 ) {
+    val viewModel =
+        hiltViewModel<CharacterViewModel, CharacterViewModel.CharacterViewModelFactory> { factory ->
+            factory.create(characterId)
+        }
+
     val state = viewModel.state.collectAsStateLifecycleAware(
         initial = CharacterViewModel.State(),
         scope = viewModel.viewModelScope
@@ -38,7 +43,7 @@ fun CharacterScreen(
 private fun CharacterScreenContent(url: String) {
     AsyncImage(
         model = url,
-        placeholder = painterResource(R.drawable.rickmoryplaceholder),
+        placeholder = painterResource(R.drawable.rickmortyplaceholder),
         contentDescription = null,
         contentScale = ContentScale.Crop,
         modifier = Modifier

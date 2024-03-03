@@ -1,6 +1,5 @@
 package io.chthonic.rickmortychars.presentation
 
-import android.os.Parcelable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -8,7 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import io.chthonic.rickmortychars.presentation.character.CharacterScreen
 import io.chthonic.rickmortychars.presentation.characterlist.CharacterListScreen
-import kotlinx.parcelize.Parcelize
+import io.chthonic.rickmortychars.presentation.nav.Destination
 
 @Composable
 fun AppContainerNavHost(
@@ -19,28 +18,23 @@ fun AppContainerNavHost(
     startDestination = Destination.CharacterList.route,
     modifier = androidx.compose.ui.Modifier.padding(padding)
 ) {
-    composable(Destination.CharacterList.route) {
+    composable(
+        route = Destination.CharacterList.route,
+    ) {
         CharacterListScreen(
             showSnackbar = appContainerState::showSnackbar,
             navController = appContainerState.navController,
             updateAppBarTitle = appContainerState::updateAppBarTitle
         )
     }
-    composable(Destination.Character.route) {
-        CharacterScreen(updateAppBarTitle = appContainerState::updateAppBarTitle)
-    }
-}
-
-sealed class Destination(val route: String) {
-    data object CharacterList : Destination("characterlist")
-
-    data object Character : Destination("character") {
-        const val ARGUMENT_KEY: String = "charArg"
-
-        @Parcelize
-        data class CharacterArgument(
-            val id: Int,
-            val imageUrl: String,
-        ) : Parcelable
+    composable(
+        route = Destination.Character.route,
+        arguments = Destination.Character.arguments,
+    ) { backStackEntry ->
+        val charId = Destination.Character.getCharId(backStackEntry.arguments)
+        CharacterScreen(
+            characterId = charId,
+            updateAppBarTitle = appContainerState::updateAppBarTitle,
+        )
     }
 }
