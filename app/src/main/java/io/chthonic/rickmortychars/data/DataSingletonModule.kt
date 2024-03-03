@@ -7,7 +7,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.chthonic.rickmortychars.data.api.RickMortyApi
+import io.chthonic.rickmortychars.data.rest.RickMortyApi
 import io.chthonic.rickmortychars.data.database.CharactersDao
 import io.chthonic.rickmortychars.data.database.DatabaseFactory
 import io.chthonic.rickmortychars.data.database.RickMortyDatabase

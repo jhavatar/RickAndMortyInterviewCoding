@@ -2,7 +2,7 @@ package io.chthonic.rickmortychars.data
 
 import androidx.paging.*
 import io.chthonic.rickmortychars.data.database.CharactersDao
-import io.chthonic.rickmortychars.data.models.CharacterResult
+import io.chthonic.rickmortychars.data.database.models.CharacterInfoDb
 import io.chthonic.rickmortychars.domain.models.CharacterInfo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -15,7 +15,7 @@ class RickMortyRepository @Inject constructor(
 
     suspend fun getCharacter(characterId: Int): CharacterInfo? =
         charactersDao.getCharacter(characterId)?.let {
-            it.toCharacterResult()
+            it.toCharacterInfo()
         }
 
     @OptIn(ExperimentalPagingApi::class)
@@ -29,17 +29,15 @@ class RickMortyRepository @Inject constructor(
         ) {
             charactersDao.pagingSource()
         }.flow.map { pagingData ->
-            pagingData.filter {
-                it.id != null && !it.image.isNullOrEmpty()
-            }.map {
-                it.toCharacterResult()
+            pagingData.map {
+                it.toCharacterInfo()
             }
         }
 
-    private fun CharacterResult.toCharacterResult() =
+    private fun CharacterInfoDb.toCharacterInfo() =
         CharacterInfo(
-            id = requireNotNull(id),
-            name = name ?: "",
-            image = requireNotNull(image)
+            id = id,
+            name = name,
+            image = image
         )
 }

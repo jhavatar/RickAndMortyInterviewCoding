@@ -6,10 +6,11 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import dagger.Lazy
-import io.chthonic.rickmortychars.data.api.RickMortyApi
 import io.chthonic.rickmortychars.data.database.CharactersDao
 import io.chthonic.rickmortychars.data.database.RickMortyDatabase
-import io.chthonic.rickmortychars.data.models.CharacterResult
+import io.chthonic.rickmortychars.data.database.models.CharacterInfoDb
+import io.chthonic.rickmortychars.data.rest.RickMortyApi
+import io.chthonic.rickmortychars.data.rest.models.CharacterResult
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -22,7 +23,7 @@ class CharacterResultRemoteMediator @Inject constructor(
     private val database: RickMortyDatabase,
     private val api: Lazy<RickMortyApi>,
     private val charactersDao: CharactersDao
-) : RemoteMediator<Int, CharacterResult>() {
+) : RemoteMediator<Int, CharacterInfoDb>() {
 
     override suspend fun initialize(): InitializeAction =
         if (charactersDao.getCharacterCount() > 0) {
@@ -33,13 +34,14 @@ class CharacterResultRemoteMediator @Inject constructor(
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, CharacterResult>
+        state: PagingState<Int, CharacterInfoDb>
     ): MediatorResult {
         return try {
             val page = when (loadType) {
                 LoadType.PREPEND -> return MediatorResult.Success(
                     endOfPaginationReached = true
                 )
+
                 LoadType.REFRESH -> 1
                 LoadType.APPEND -> {
                     val lastItem = state.lastItemOrNull()
@@ -47,7 +49,7 @@ class CharacterResultRemoteMediator @Inject constructor(
                 }
             }
 
-            val response = getCharacters(page)
+            val response = getCharacters(page).mapToValidCharacterData()
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     charactersDao.clearAll()
@@ -68,4 +70,12 @@ class CharacterResultRemoteMediator @Inject constructor(
         retryIO(times = MAX_RETRY_COUNT) {
             api.get().getCharacters(pageNumber).results
         }
+
+    private fun List<CharacterResult>.mapToValidCharacterData(): List<CharacterInfoDb> = mapNotNull {
+        if (it.id != null && it.name != null && it.image != null) {
+            CharacterInfoDb(id = it.id, name = it.name, image = it.image)
+        } else {
+            null
+        }
+    }
 }
