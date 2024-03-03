@@ -11,6 +11,7 @@ import io.chthonic.rickmortychars.data.rest.RickMortyApi
 import io.chthonic.rickmortychars.data.database.CharactersDao
 import io.chthonic.rickmortychars.data.database.DatabaseFactory
 import io.chthonic.rickmortychars.data.database.RickMortyDatabase
+import io.chthonic.rickmortychars.domain.dataapi.RickMortyRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -21,7 +22,7 @@ private const val BASE_URL = "https://rickandmortyapi.com/api/"
 
 @Module
 @InstallIn(SingletonComponent::class)
-class DataSingletonModule {
+internal class DataSingletonModule {
     @Provides
     @Singleton
     fun provideMoshi(): Moshi = Moshi.Builder()
@@ -59,4 +60,8 @@ class DataSingletonModule {
     @Provides
     fun provideCharactersDao(db: RickMortyDatabase): CharactersDao =
         db.charactersDao()
+
+    @Provides
+    fun provideRickMortyRepository(impl: RickMortyRepositoryImpl): RickMortyRepository =
+        impl
 }

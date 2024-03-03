@@ -1,7 +1,7 @@
 package io.chthonic.rickmortychars.domain
 
 import androidx.paging.PagingData
-import io.chthonic.rickmortychars.data.RickMortyRepository
+import io.chthonic.rickmortychars.domain.dataapi.RickMortyRepository
 import io.chthonic.rickmortychars.domain.models.CharacterInfo
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

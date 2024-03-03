@@ -1,6 +1,6 @@
 package io.chthonic.rickmortychars.domain
 
-import io.chthonic.rickmortychars.data.RickMortyRepository
+import io.chthonic.rickmortychars.domain.dataapi.RickMortyRepository
 import javax.inject.Inject
 
 class GetCharacterUseCase @Inject constructor(
