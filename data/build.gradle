@@ -1,0 +1,75 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.devtools.ksp'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    namespace 'io.chthonic.rickmortychars.data'
+    compileSdk versions.targetSdk
+
+    defaultConfig {
+        minSdk versions.minSdk
+        targetSdk versions.targetSdk
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility versions.java
+        targetCompatibility versions.java
+    }
+    kotlinOptions {
+        jvmTarget = versions.jvm_target
+    }
+}
+
+dependencies {
+    implementation "androidx.core:core-ktx:$versions.androidx_core"
+    implementation project(path: ':domain:dataapi')
+
+    // room
+    implementation "androidx.room:room-runtime:$versions.room"
+    implementation "androidx.room:room-ktx:$versions.room"
+    ksp "androidx.room:room-compiler:$versions.room"
+
+    // coroutines, flow
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"
+
+    // json
+    implementation "com.squareup.moshi:moshi-adapters:$versions.moshi"
+    implementation "com.squareup.moshi:moshi-kotlin:$versions.moshi"
+    implementation "com.squareup.moshi:moshi-kotlin-codegen:$versions.moshi"
+    implementation "com.squareup.moshi:moshi:$versions.moshi"
+
+    // di
+    implementation "com.google.dagger:hilt-android:$versions.hilt"
+    ksp "com.google.dagger:hilt-android-compiler:$versions.hilt"
+
+    // net
+    implementation "com.squareup.okhttp3:okhttp:$versions.okhttp"
+    implementation "com.squareup.okhttp3:logging-interceptor:$versions.okhttp"
+
+    // rest
+    implementation "com.squareup.retrofit2:converter-moshi:$versions.retrofit"
+    implementation "com.squareup.retrofit2:retrofit:$versions.retrofit"
+
+    // paging
+    implementation "androidx.paging:paging-runtime-ktx:$versions.paging"
+    implementation "androidx.room:room-paging:$versions.room_paging"
+
+    // logging
+    implementation "com.jakewharton.timber:timber:$versions.timber"
+
+    // testing
+    testImplementation "junit:junit:$versions.junit"
+}
