@@ -36,20 +36,20 @@ android {
 }
 
 dependencies {
-    implementation "androidx.core:core-ktx:$versions.androidx_core"
+    implementation libs.androidx.core
     implementation project(path: ':domain')
     implementation project(path: ':presentation')
     implementation project(path: ':data')
 
     // di
-    implementation "com.google.dagger:hilt-android:$versions.hilt"
-    ksp "com.google.dagger:hilt-android-compiler:$versions.hilt"
+    implementation libs.hilt.android
+    ksp libs.hilt.android.compiler
 
     // logging
-    implementation "com.jakewharton.timber:timber:$versions.timber"
+    implementation libs.timber
 
     // testing
-    testImplementation "junit:junit:$versions.junit"
+    testImplementation libs.junit
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
