@@ -31,11 +31,11 @@ android {
 }
 
 dependencies {
-    implementation "androidx.core:core-ktx:$versions.androidx_core"
+    implementation libs.androidx.core
 
     // paging
-    implementation "androidx.paging:paging-runtime-ktx:$versions.paging"
+    implementation libs.paging.runtime
 
     // testing
-    testImplementation "junit:junit:$versions.junit"
+    testImplementation libs.junit
 }

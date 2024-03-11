@@ -42,44 +42,44 @@ android {
 }
 
 dependencies {
-    implementation "androidx.core:core-ktx:$versions.androidx_core"
+    implementation libs.androidx.core
     implementation project(path: ':domain:presentationapi')
 
     // di
-    implementation "com.google.dagger:hilt-android:$versions.hilt"
-    ksp "com.google.dagger:hilt-android-compiler:$versions.hilt"
-    implementation "androidx.hilt:hilt-navigation-compose:$versions.hilt_compose"
+    implementation libs.hilt.android
+    ksp libs.hilt.android.compiler
+    implementation libs.hilt.navigation.compose
 
     // compose
-    implementation "androidx.compose.ui:ui:$versions.compose"
-    implementation "androidx.compose.material:material:$versions.compose"
-    implementation "androidx.compose.ui:ui-tooling-preview:$versions.compose"
-    debugImplementation "androidx.compose.ui:ui-tooling:$versions.compose"
+    implementation libs.compose
+    implementation libs.compose.material
+    implementation libs.compose.tooling.preview
+    debugImplementation libs.compose.tooling
 
     // navigation
-    implementation "androidx.navigation:navigation-ui-ktx:$versions.navigation"
-    implementation "androidx.navigation:navigation-compose:$versions.navigation"
+    implementation libs.navigation
+    implementation libs.navigation.compose
 
     // viewModel
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$versions.lifecycle"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycle"
+    implementation libs.viewmodel
+    implementation libs.viewmodel.compose
+    implementation libs.viewmodel.runtime
 
     // coroutines, flow
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"
+    implementation libs.coroutines.core
+    implementation libs.coroutines.android
 
     // image
-    implementation "io.coil-kt:coil:$versions.coil"
-    implementation "io.coil-kt:coil-compose:$versions.coil"
+    implementation libs.coil
+    implementation libs.coil.compose
 
     // paging
-    implementation "androidx.paging:paging-runtime-ktx:$versions.paging"
-    implementation "androidx.paging:paging-compose:$versions.paging"
+    implementation libs.paging.runtime
+    implementation libs.paging.compose
 
     // logging
-    implementation "com.jakewharton.timber:timber:$versions.timber"
+    implementation libs.timber
 
     // testing
-    testImplementation "junit:junit:$versions.junit"
+    testImplementation libs.junit
 }
