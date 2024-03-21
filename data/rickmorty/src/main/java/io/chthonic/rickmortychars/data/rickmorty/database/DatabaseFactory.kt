@@ -1,4 +1,4 @@
-package io.chthonic.rickmortychars.data.database
+package io.chthonic.rickmortychars.data.rickmorty.database
 
 import android.content.Context
 import androidx.room.Room

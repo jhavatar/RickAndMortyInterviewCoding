@@ -10,7 +10,5 @@ internal class GetCharacterUseCaseImpl @Inject constructor(
     private val rickMortyRepository: RickMortyRepository
 ) : GetCharacterUseCase {
     override suspend fun execute(characterId: Int): CharacterInfo? =
-        rickMortyRepository.getCharacter(characterId)?.let {
-            it.toPresentationModel()
-        }
+        rickMortyRepository.getCharacter(characterId)?.toPresentationModel()
 }

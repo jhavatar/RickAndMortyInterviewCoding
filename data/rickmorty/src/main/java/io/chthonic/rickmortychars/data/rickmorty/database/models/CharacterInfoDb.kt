@@ -1,4 +1,4 @@
-package io.chthonic.rickmortychars.data.database.models
+package io.chthonic.rickmortychars.data.rickmorty.database.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

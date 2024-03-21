@@ -1,4 +1,4 @@
-package io.chthonic.rickmortychars.data.rest
+package io.chthonic.rickmortychars.data.common.io
 
 import kotlinx.coroutines.delay
 import timber.log.Timber

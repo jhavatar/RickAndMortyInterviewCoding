@@ -1,12 +1,12 @@
-package io.chthonic.rickmortychars.data.database
+package io.chthonic.rickmortychars.data.rickmorty.database
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import io.chthonic.rickmortychars.data.database.models.CHARACTER_TABLE_NAME
-import io.chthonic.rickmortychars.data.database.models.CharacterInfoDb
+import io.chthonic.rickmortychars.data.rickmorty.database.models.CHARACTER_TABLE_NAME
+import io.chthonic.rickmortychars.data.rickmorty.database.models.CharacterInfoDb
 
 
 @Dao

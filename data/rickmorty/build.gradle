@@ -1,0 +1,73 @@
+plugins {
+    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlinAndroid)
+    id 'com.google.devtools.ksp'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    namespace 'io.chthonic.rickmortychars.data.rickmorty'
+    compileSdk versions.targetSdk
+
+    defaultConfig {
+        minSdk versions.minSdk
+        targetSdk versions.targetSdk
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility versions.java
+        targetCompatibility versions.java
+    }
+    kotlinOptions {
+        jvmTarget = versions.jvm_target
+    }
+}
+
+dependencies {
+    implementation libs.androidx.core
+    implementation project(path: ':data:common')
+    implementation project(path: ':domain:dataapi')
+
+    // room
+    implementation libs.room.runtime
+    implementation libs.room
+    ksp libs.room.compiler
+
+    // coroutines, flow
+    implementation libs.coroutines.core
+    implementation libs.coroutines.android
+
+    // json
+    implementation libs.moshi.adapters
+    implementation libs.moshi.kotlin
+    implementation libs.moshi.kotlin.codegen
+    implementation libs.moshi
+
+    // di
+    implementation libs.hilt.android
+    ksp libs.hilt.android.compiler
+
+    // net
+    implementation libs.okhttp
+    implementation libs.okhttp.logging.interceptor
+
+    // rest
+    implementation libs.retrofit.converter.moshi
+    implementation libs.retrofit
+
+    // paging
+    implementation libs.paging.runtime
+    implementation libs.paging.room
+
+    // testing
+    testImplementation libs.junit
+}

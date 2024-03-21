@@ -1,23 +1,20 @@
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
+    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlinAndroid)
     id 'com.google.devtools.ksp'
     id 'dagger.hilt.android.plugin'
-    id 'kotlin-parcelize'
 }
 
 android {
-    namespace 'io.chthonic.rickmortychars'
+    namespace 'io.chthonic.rickmortychars.data.common'
     compileSdk versions.targetSdk
 
     defaultConfig {
-        applicationId "io.chthonic.rickmortychars"
         minSdk versions.minSdk
         targetSdk versions.targetSdk
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -37,19 +34,28 @@ android {
 
 dependencies {
     implementation libs.androidx.core
-    implementation project(path: ':domain')
-    implementation project(path: ':data:rickmorty')
-    implementation project(path: ':presentation')
+
+    // coroutines, flow
+    implementation libs.coroutines.core
+    implementation libs.coroutines.android
+
+    // json
+    implementation libs.moshi.adapters
+    implementation libs.moshi.kotlin
+    implementation libs.moshi.kotlin.codegen
+    implementation libs.moshi
 
     // di
     implementation libs.hilt.android
     ksp libs.hilt.android.compiler
 
+    // net
+    implementation libs.okhttp
+    implementation libs.okhttp.logging.interceptor
+
     // logging
-    implementation libs.timber
+    api libs.timber
 
     // testing
     testImplementation libs.junit
-    androidTestImplementation libs.androidx.test.ext.junit
-    androidTestImplementation libs.espresso.core
 }

@@ -1,4 +1,4 @@
-package io.chthonic.rickmortychars.data.rest.models
+package io.chthonic.rickmortychars.data.rickmorty.rest.models
 
 
 data class CharacterResults(
