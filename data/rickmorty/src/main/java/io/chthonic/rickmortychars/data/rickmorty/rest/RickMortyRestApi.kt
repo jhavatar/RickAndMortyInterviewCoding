@@ -1,6 +1,6 @@
-package io.chthonic.rickmortychars.data.rest
+package io.chthonic.rickmortychars.data.rickmorty.rest
 
-import io.chthonic.rickmortychars.data.rest.models.CharacterResults
+import io.chthonic.rickmortychars.data.rickmorty.rest.models.CharacterResults
 import retrofit2.http.GET
 import retrofit2.http.Query
 

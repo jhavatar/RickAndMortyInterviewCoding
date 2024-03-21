@@ -1,4 +1,4 @@
-package io.chthonic.rickmortychars.data
+package io.chthonic.rickmortychars.data.rickmorty
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
@@ -6,12 +6,11 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import dagger.Lazy
-import io.chthonic.rickmortychars.data.database.CharactersDao
-import io.chthonic.rickmortychars.data.database.RickMortyDatabase
-import io.chthonic.rickmortychars.data.database.models.CharacterInfoDb
-import io.chthonic.rickmortychars.data.rest.RickMortyRestApi
-import io.chthonic.rickmortychars.data.rest.models.CharacterResult
-import io.chthonic.rickmortychars.data.rest.retryIO
+import io.chthonic.rickmortychars.data.rickmorty.database.CharactersDao
+import io.chthonic.rickmortychars.data.rickmorty.database.RickMortyDatabase
+import io.chthonic.rickmortychars.data.rickmorty.database.models.CharacterInfoDb
+import io.chthonic.rickmortychars.data.rickmorty.rest.RickMortyRestApi
+import io.chthonic.rickmortychars.data.rickmorty.rest.models.CharacterResult
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -68,7 +67,7 @@ class CharacterResultRemoteMediator @Inject constructor(
     }
 
     private suspend fun getCharacters(pageNumber: Int): List<CharacterResult> =
-        retryIO(times = MAX_RETRY_COUNT) {
+        io.chthonic.rickmortychars.data.common.io.retryIO(times = MAX_RETRY_COUNT) {
             api.get().getCharacters(pageNumber).results
         }
 

@@ -1,8 +1,8 @@
-package io.chthonic.rickmortychars.data
+package io.chthonic.rickmortychars.data.rickmorty
 
 import androidx.paging.*
-import io.chthonic.rickmortychars.data.database.CharactersDao
-import io.chthonic.rickmortychars.data.database.models.CharacterInfoDb
+import io.chthonic.rickmortychars.data.rickmorty.database.CharactersDao
+import io.chthonic.rickmortychars.data.rickmorty.database.models.CharacterInfoDb
 import io.chthonic.rickmortychars.domain.dataapi.RickMortyRepository
 import io.chthonic.rickmortychars.domain.dataapi.models.CharacterInfo
 import kotlinx.coroutines.flow.Flow
@@ -15,9 +15,7 @@ internal class RickMortyRepositoryImpl @Inject constructor(
 ) : RickMortyRepository {
 
     override suspend fun getCharacter(characterId: Int): CharacterInfo? =
-        charactersDao.getCharacter(characterId)?.let {
-            it.toDomainModel()
-        }
+        charactersDao.getCharacter(characterId)?.toDomainModel()
 
     @OptIn(ExperimentalPagingApi::class)
     override fun getCharacters(): Flow<PagingData<CharacterInfo>> =

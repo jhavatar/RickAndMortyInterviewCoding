@@ -1,8 +1,8 @@
-package io.chthonic.rickmortychars.data.database
+package io.chthonic.rickmortychars.data.rickmorty.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import io.chthonic.rickmortychars.data.database.models.CharacterInfoDb
+import io.chthonic.rickmortychars.data.rickmorty.database.models.CharacterInfoDb
 
 private const val CURRENT_DATABASE_VERSION = 1
 
