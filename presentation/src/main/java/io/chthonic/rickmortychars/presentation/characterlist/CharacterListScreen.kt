@@ -98,7 +98,10 @@ private fun CharacterListContent(
             .fillMaxWidth()
             .fillMaxHeight()
     ) {
-        items(lazyCharInfoItems) { item ->
+        items(
+            lazyCharInfoItems,
+            itemKey = { it.id },
+        ) { item ->
             item?.let {
                 CharacterItem(it) { onClick(it) }
             }
