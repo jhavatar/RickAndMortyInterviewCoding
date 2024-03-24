@@ -7,9 +7,17 @@ import androidx.paging.compose.LazyPagingItems
 
 inline fun <T : Any> LazyGridScope.items(
     items: LazyPagingItems<T>,
+    crossinline itemKey: ((item: T) -> Any?) = { null },
     crossinline itemContent: @Composable LazyGridItemScope.(item: T?) -> Unit
 ) {
-    items(count = items.itemCount) { index ->
+    items(
+        count = items.itemCount,
+        key = { index ->
+            items[index]?.let { item ->
+                itemKey(item)
+            } ?: index
+        },
+    ) { index ->
         itemContent(items[index])
     }
 }
