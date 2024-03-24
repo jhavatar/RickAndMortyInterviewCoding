@@ -7,8 +7,8 @@ buildscript {
         versions = [
                 minSdk : 26,
                 targetSdk : 34,
-                java : JavaVersion.VERSION_11,
-                jvm_target : '11',
+                java : JavaVersion.VERSION_1_8,
+                jvm_target : '1.8',
                 kotlin_compiler_ext :'1.5.10',
         ]
     }
@@ -17,7 +17,7 @@ plugins {
     id 'com.android.application' version '8.2.2' apply false
     id 'com.android.library' version '8.2.2' apply false
     id 'org.jetbrains.kotlin.android' version '1.9.22' apply false
-    id 'com.google.devtools.ksp' version '1.9.22-1.0.17' apply false
+    id 'com.google.devtools.ksp' version '1.9.22-1.0.18' apply false
 }
 
 tasks.register('clean', Delete) {

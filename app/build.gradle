@@ -20,10 +20,29 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
+    signingConfigs {
+        debug {
+            storeFile rootProject.file('generic_signing.jks')
+            storePassword "12345678"
+            keyAlias "generic"
+            keyPassword "12345678"
+        }
         release {
-            minifyEnabled false
+            storeFile rootProject.file('generic_signing.jks')
+            storePassword "12345678"
+            keyAlias "generic"
+            keyPassword "12345678"
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
