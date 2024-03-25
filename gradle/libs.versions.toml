@@ -1,38 +1,38 @@
 [versions]
+agp = "8.2.2"
+androidx-core = '1.12.0'
+androidx-test-ext-junit = "1.1.5"
+appcompat = "1.6.1"
+coil = '2.5.0'
 compose = '1.6.4'
-navigation = '2.7.7'
-lifecycle = '2.7.0'
-moshi = '1.15.1'
+coroutines = '1.8.0'
+espresso-core = "3.5.1"
 hilt = '2.50'
 hilt_compose = '1.2.0'
-okhttp = '4.12.0'
-room = '2.6.1'
-androidx-core = '1.12.0'
 junit = '4.13.2'
-timber = '5.0.1'
-coroutines = '1.8.0'
-coil = '2.5.0'
-paging = '3.2.1'
-room-paging = '2.6.1'
-retrofit = '2.10.0'
-agp = "8.2.2"
 kotlin = "1.9.22"
-androidx-test-ext-junit = "1.1.5"
-espresso-core = "3.5.1"
-appcompat = "1.6.1"
+ksp = "1.9.22-1.0.18"
+lifecycle = '2.7.0'
 material = "1.11.0"
+moshi = '1.15.1'
+navigation = '2.7.7'
+okhttp = '4.12.0'
+paging = '3.2.1'
+retrofit = '2.10.0'
+room = '2.6.1'
+room-paging = '2.6.1'
+timber = '5.0.1'
 
 [libraries]
 # android
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 
-# dp
+# di
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
-hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
 hilt-navigation_compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt_compose" }
 
-# loggin
+# logging
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 # room
@@ -93,4 +93,8 @@ material = { group = "com.google.android.material", name = "material", version.r
 
 [plugins]
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
+androidApp = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
