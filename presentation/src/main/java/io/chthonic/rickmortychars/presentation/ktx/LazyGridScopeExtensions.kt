@@ -13,7 +13,7 @@ inline fun <T : Any> LazyGridScope.items(
     items(
         count = items.itemCount,
         key = { index ->
-            items[index]?.let { item ->
+            items.peek(index)?.let { item ->
                 itemKey(item)
             } ?: index
         },
