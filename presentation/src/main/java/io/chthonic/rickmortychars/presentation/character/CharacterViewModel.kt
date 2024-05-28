@@ -44,8 +44,8 @@ class CharacterViewModel(
 
     init {
         viewModelScope.launch {
-            characterId?.let {
-                getCharacterUsecase.execute(it)?.let {
+            characterId?.let { charId ->
+                getCharacterUsecase.execute(charId)?.let {
                     _state.value = state.value.copy(
                         titleToShow = it.name,
                         imageUrlToShow = it.image,
