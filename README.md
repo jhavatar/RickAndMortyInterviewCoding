@@ -1,3 +1,5 @@
+[![Android CI](https://github.com/jhavatar/RickAndMortyInterviewCoding/actions/workflows/android.yml/badge.svg)](https://github.com/jhavatar/RickAndMortyInterviewCoding/actions/workflows/android.yml)
+
 # Rick and Morty interview coding task
 
 ## Task
