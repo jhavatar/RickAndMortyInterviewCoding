@@ -23,7 +23,7 @@ class CharacterListViewModel @Inject constructor(
         getCharacterListUseCase.execute()
             .cachedIn(viewModelScope)
 
-    val _navigateSideEffect = MutableStateFlow<SideEffect<NavigationTarget>?>(null)
+    private val _navigateSideEffect = MutableStateFlow<SideEffect<NavigationTarget>?>(null)
     val navigateSideEffect: StateFlow<SideEffect<NavigationTarget>?> =
         _navigateSideEffect.asStateFlow()
 
