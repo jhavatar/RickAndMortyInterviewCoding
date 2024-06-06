@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
@@ -30,7 +30,6 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import io.chthonic.rickmortychars.domain.presentationapi.models.CharacterInfo
 import io.chthonic.rickmortychars.presentation.R
-import io.chthonic.rickmortychars.presentation.ktx.collectAsStateLifecycleAware
 import io.chthonic.rickmortychars.presentation.ktx.items
 import io.chthonic.rickmortychars.presentation.nav.Destination
 import io.chthonic.rickmortychars.presentation.theme.WhiteTrans50
@@ -49,10 +48,7 @@ fun CharacterListScreen(
         updateAppBarTitle(context.resources.getString(R.string.app_name))
     }
 
-    viewModel.navigateSideEffect.collectAsStateLifecycleAware(
-        initial = null,
-        scope = viewModel.viewModelScope
-    ).value?.let { sideEffect ->
+    viewModel.navigateSideEffect.collectAsStateWithLifecycle().value?.let { sideEffect ->
         when (val navTarget = sideEffect.getContentIfNotHandled()) {
             is CharacterListViewModel.NavigationTarget.CharacterScreen -> {
                 navController.navigate(Destination.Character.buildUniqueRoute(navTarget.characterId))

@@ -10,10 +10,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import io.chthonic.rickmortychars.presentation.R
-import io.chthonic.rickmortychars.presentation.ktx.collectAsStateLifecycleAware
 
 @Composable
 fun CharacterScreen(
@@ -25,10 +24,7 @@ fun CharacterScreen(
             factory.create(characterId)
         }
 
-    val state = viewModel.state.collectAsStateLifecycleAware(
-        initial = CharacterViewModel.State(),
-        scope = viewModel.viewModelScope
-    ).value
+    val state = viewModel.state.collectAsStateWithLifecycle().value
 
     LaunchedEffect(state.titleToShow) {
         updateAppBarTitle(state.titleToShow)

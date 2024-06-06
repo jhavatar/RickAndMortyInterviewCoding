@@ -2,9 +2,9 @@
 agp = "8.4.1"
 androidx-core = "1.13.1"
 androidx-test-ext-junit = "1.1.5"
-appcompat = "1.6.1"
+appcompat = "1.7.0"
 coil = "2.6.0"
-compose = "1.6.7"
+compose = "1.7.0-beta02"
 coroutines = "1.8.1"
 espresso-core = "3.5.1"
 hilt = "2.51.1"
@@ -12,7 +12,7 @@ hilt_compose = '1.2.0'
 junit = '4.13.2'
 kotlin = "2.0.0"
 ksp = "2.0.0-1.0.21"
-lifecycle = "2.8.0"
+lifecycle = "2.8.1"
 material = "1.12.0"
 moshi = '1.15.1'
 navigation = '2.7.7'
@@ -70,6 +70,7 @@ compose = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
 compose-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+compose-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose-android", version.ref = "lifecycle" }
 
 # navigation
 navigation = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
