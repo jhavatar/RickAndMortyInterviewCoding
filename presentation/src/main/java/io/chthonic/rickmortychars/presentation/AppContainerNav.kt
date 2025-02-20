@@ -1,8 +1,7 @@
 package io.chthonic.rickmortychars.presentation
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import io.chthonic.rickmortychars.presentation.character.CharacterScreen
@@ -12,11 +11,11 @@ import io.chthonic.rickmortychars.presentation.nav.Destination
 @Composable
 fun AppContainerNavHost(
     appContainerState: AppContainerState,
-    padding: PaddingValues
+    modifier: Modifier,
 ) = NavHost(
     navController = appContainerState.navController,
     startDestination = Destination.CharacterList.route,
-    modifier = androidx.compose.ui.Modifier.padding(padding)
+    modifier = modifier,
 ) {
     composable(
         route = Destination.CharacterList.route,

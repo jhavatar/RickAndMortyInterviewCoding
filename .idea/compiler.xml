@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="17" />
+    <bytecodeTargetLevel target="17">
+      <module name="RickAndMortyChars.RickMortyChars.presentation" target="21" />
+      <module name="RickMortyChars.app" target="21" />
+      <module name="RickMortyChars.data.common" target="21" />
+      <module name="RickMortyChars.data.rickmorty" target="21" />
+      <module name="RickMortyChars.domain" target="21" />
+      <module name="RickMortyChars.domain.dataapi" target="21" />
+      <module name="RickMortyChars.domain.presentationapi" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>

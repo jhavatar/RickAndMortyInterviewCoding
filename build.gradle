@@ -3,7 +3,7 @@ buildscript {
     ext {
         versions = [
                 minSdk             : 26,
-                targetSdk          : 34,
+                targetSdk          : 35,
                 java               : JavaVersion.VERSION_1_8,
                 jvm_target         : '1.8',
         ]
