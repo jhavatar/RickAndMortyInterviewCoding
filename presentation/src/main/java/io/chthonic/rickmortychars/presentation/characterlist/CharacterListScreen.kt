@@ -1,8 +1,16 @@
 package io.chthonic.rickmortychars.presentation.characterlist
 
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,12 +43,16 @@ import io.chthonic.rickmortychars.presentation.R
 import io.chthonic.rickmortychars.presentation.ktx.items
 import io.chthonic.rickmortychars.presentation.nav.Destination
 import io.chthonic.rickmortychars.presentation.theme.WhiteTrans50
-import io.chthonic.rickmortychars.presentation.views.LoadingProgress
+import io.chthonic.rickmortychars.presentation.widgets.LoadingProgress
+import io.chthonic.rickmortychars.presentation.widgets.PreviewSharedAnimation
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
+@OptIn(ExperimentalSharedTransitionApi::class)
 fun CharacterListScreen(
     viewModel: CharacterListViewModel = hiltViewModel(),
+    sharedTransitionScope: SharedTransitionScope,
+    animatedContentScope: AnimatedContentScope,
     showSnackbar: (String, SnackbarDuration) -> Unit,
     updateAppBarTitle: (String?) -> Unit,
     navController: NavController
@@ -62,7 +74,11 @@ fun CharacterListScreen(
     }
 
     val lazyCharInfoItems = viewModel.characterListToDisplay.collectAsLazyPagingItems()
-    CharacterListContent(lazyCharInfoItems) { charInfo ->
+    CharacterListContent(
+        lazyCharInfoItems,
+        sharedTransitionScope,
+        animatedContentScope,
+    ) { charInfo ->
         viewModel.onCharacterClick(charInfo)
     }
 
@@ -86,8 +102,11 @@ fun CharacterListScreen(
 }
 
 @Composable
+@OptIn(ExperimentalSharedTransitionApi::class)
 private fun CharacterListContent(
     lazyCharInfoItems: LazyPagingItems<CharacterInfo>,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedContentScope: AnimatedContentScope,
     onClick: (CharacterInfo) -> Unit
 ) {
     LazyVerticalGrid(
@@ -101,31 +120,40 @@ private fun CharacterListContent(
             itemKey = { it.id },
         ) { item ->
             item?.let {
-                CharacterItem(it) { onClick(it) }
+                CharacterItem(it, sharedTransitionScope, animatedContentScope) { onClick(it) }
             }
         }
     }
 }
 
 @Composable
+@OptIn(ExperimentalSharedTransitionApi::class)
 private fun CharacterItem(
     charInfo: CharacterInfo,
-    onClick: () -> Unit
+    sharedTransitionScope: SharedTransitionScope,
+    animatedContentScope: AnimatedContentScope,
+    onClick: () -> Unit,
 ) {
     Box {
-        AsyncImage(
-            model = charInfo.image,
-            placeholder = painterResource(R.drawable.rickmortyplaceholder),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(256.dp)
-                .background(Color.Black)
-                .clickable {
-                    onClick()
-                },
-        )
+        with(sharedTransitionScope) {
+            AsyncImage(
+                model = charInfo.image,
+                placeholder = painterResource(R.drawable.rickmortyplaceholder),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(256.dp)
+                    .background(Color.Black)
+                    .clickable {
+                        onClick()
+                    }
+                    .sharedElement(
+                        sharedTransitionScope.rememberSharedContentState(key = "image-${charInfo.image}"),
+                        animatedVisibilityScope = animatedContentScope
+                    ),
+            )
+        }
         Box(
             Modifier
                 .align(Alignment.BottomEnd)
@@ -145,24 +173,35 @@ private fun CharacterItem(
     }
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Preview
 @Composable
 private fun PreviewCharacterListContent() {
-    CharacterListContent(
-        flowOf(
-            PagingData.from(
-                CharInfoPreviewProvider().values.toList()
-            )
-        ).collectAsLazyPagingItems()
-    ) {}
+    PreviewSharedAnimation { sharedTransitionScope, animatedContentScope ->
+        CharacterListContent(
+            flowOf(
+                PagingData.from(
+                    CharInfoPreviewProvider().values.toList()
+                )
+            ).collectAsLazyPagingItems(),
+            sharedTransitionScope = sharedTransitionScope,
+            animatedContentScope = animatedContentScope,
+        ) {}
+    }
 }
+
 
 @Preview
 @Composable
+@OptIn(ExperimentalSharedTransitionApi::class)
 private fun PreviewCharacterItem() {
-    CharacterItem(
-        CharInfoPreviewProvider().values.first()
-    ) {}
+    PreviewSharedAnimation { sharedTransitionScope, animatedContentScope ->
+        CharacterItem(
+            CharInfoPreviewProvider().values.first(),
+            sharedTransitionScope = sharedTransitionScope,
+            animatedContentScope = animatedContentScope,
+        ) {}
+    }
 }
 
 private class CharInfoPreviewProvider : PreviewParameterProvider<CharacterInfo> {

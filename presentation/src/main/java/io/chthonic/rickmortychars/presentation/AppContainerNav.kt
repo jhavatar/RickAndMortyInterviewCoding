@@ -1,5 +1,7 @@
 package io.chthonic.rickmortychars.presentation
 
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
@@ -8,32 +10,40 @@ import io.chthonic.rickmortychars.presentation.character.CharacterScreen
 import io.chthonic.rickmortychars.presentation.characterlist.CharacterListScreen
 import io.chthonic.rickmortychars.presentation.nav.Destination
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun AppContainerNavHost(
     appContainerState: AppContainerState,
     modifier: Modifier,
-) = NavHost(
-    navController = appContainerState.navController,
-    startDestination = Destination.CharacterList.route,
-    modifier = modifier,
-) {
-    composable(
-        route = Destination.CharacterList.route,
+) = SharedTransitionLayout(modifier = modifier) {
+    val sharedTransitionScope = this@SharedTransitionLayout
+    NavHost(
+        navController = appContainerState.navController,
+        startDestination = Destination.CharacterList.route,
+        modifier = Modifier,
     ) {
-        CharacterListScreen(
-            showSnackbar = appContainerState::showSnackbar,
-            navController = appContainerState.navController,
-            updateAppBarTitle = appContainerState::updateAppBarTitle
-        )
-    }
-    composable(
-        route = Destination.Character.route,
-        arguments = Destination.Character.arguments,
-    ) { backStackEntry ->
-        val charId = Destination.Character.getCharId(backStackEntry.arguments)
-        CharacterScreen(
-            characterId = charId,
-            updateAppBarTitle = appContainerState::updateAppBarTitle,
-        )
+        composable(
+            route = Destination.CharacterList.route,
+        ) {
+            CharacterListScreen(
+                sharedTransitionScope = sharedTransitionScope,
+                animatedContentScope = this@composable,
+                showSnackbar = appContainerState::showSnackbar,
+                navController = appContainerState.navController,
+                updateAppBarTitle = appContainerState::updateAppBarTitle
+            )
+        }
+        composable(
+            route = Destination.Character.route,
+            arguments = Destination.Character.arguments,
+        ) { backStackEntry ->
+            val charId = Destination.Character.getCharId(backStackEntry.arguments)
+            CharacterScreen(
+                characterId = charId,
+                sharedTransitionScope = sharedTransitionScope,
+                animatedContentScope = this@composable,
+                updateAppBarTitle = appContainerState::updateAppBarTitle,
+            )
+        }
     }
 }

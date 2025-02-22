@@ -1,5 +1,8 @@
 package io.chthonic.rickmortychars.presentation.character
 
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,9 +18,12 @@ import coil.compose.AsyncImage
 import io.chthonic.rickmortychars.presentation.R
 
 @Composable
+@OptIn(ExperimentalSharedTransitionApi::class)
 fun CharacterScreen(
     characterId: Int?,
-    updateAppBarTitle: (String?) -> Unit
+    sharedTransitionScope: SharedTransitionScope,
+    animatedContentScope: AnimatedContentScope,
+    updateAppBarTitle: (String?) -> Unit,
 ) {
     val viewModel =
         hiltViewModel<CharacterViewModel, CharacterViewModel.CharacterViewModelFactory> { factory ->
@@ -31,20 +37,33 @@ fun CharacterScreen(
     }
 
     CharacterScreenContent(
-        state.imageUrlToShow
+        state.imageUrlToShow,
+        sharedTransitionScope,
+        animatedContentScope,
     )
 }
 
 @Composable
-private fun CharacterScreenContent(url: String) {
-    AsyncImage(
-        model = url,
-        placeholder = painterResource(R.drawable.rickmortyplaceholder),
-        contentDescription = null,
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-            .background(Color.Black),
-    )
+@OptIn(ExperimentalSharedTransitionApi::class)
+private fun CharacterScreenContent(
+    url: String,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedContentScope: AnimatedContentScope,
+) {
+    with(sharedTransitionScope) {
+        AsyncImage(
+            model = url,
+            placeholder = painterResource(R.drawable.rickmortyplaceholder),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .background(Color.Black)
+                .sharedElement(
+                    rememberSharedContentState(key = "image-$url"),
+                    animatedVisibilityScope = animatedContentScope,
+                ),
+        )
+    }
 }

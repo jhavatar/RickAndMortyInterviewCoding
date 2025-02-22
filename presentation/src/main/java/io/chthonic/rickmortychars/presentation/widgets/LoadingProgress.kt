@@ -1,4 +1,4 @@
-package io.chthonic.rickmortychars.presentation.views
+package io.chthonic.rickmortychars.presentation.widgets
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
