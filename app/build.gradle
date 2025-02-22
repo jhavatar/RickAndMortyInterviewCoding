@@ -45,13 +45,13 @@ android {
             signingConfig signingConfigs.release
         }
     }
-    compileOptions {
-        sourceCompatibility versions.java
-        targetCompatibility versions.java
+    buildFeatures {
+        buildConfig true
     }
-    kotlinOptions {
-        jvmTarget = versions.jvm_target
-    }
+}
+
+kotlin {
+    jvmToolchain(libs.versions.jvmTarget.get().toInteger())
 }
 
 dependencies {

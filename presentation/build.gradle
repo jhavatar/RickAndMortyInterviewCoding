@@ -18,19 +18,16 @@ android {
         consumerProguardFiles "consumer-rules.pro"
     }
 
-    compileOptions {
-        sourceCompatibility versions.java
-        targetCompatibility versions.java
-    }
-    kotlinOptions {
-        jvmTarget = versions.jvm_target
-    }
     viewBinding {
         enabled = true
     }
     buildFeatures {
         compose true
     }
+}
+
+kotlin {
+    jvmToolchain(libs.versions.jvmTarget.get().toInteger())
 }
 
 dependencies {
@@ -44,7 +41,7 @@ dependencies {
 
     // compose
     implementation libs.compose
-    implementation libs.compose.material
+    implementation libs.compose.material3
     implementation libs.compose.tooling.preview
     debugImplementation libs.compose.tooling
     implementation libs.compose.lifecycle.runtime

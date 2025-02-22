@@ -1,9 +1,7 @@
 package io.chthonic.rickmortychars.presentation
 
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.SnackbarDuration
-import androidx.compose.material.SnackbarHostState
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -15,16 +13,16 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 data class AppContainerState(
-    val scaffoldState: ScaffoldState,
+    val navController: NavHostController,
     val snackbarScope: CoroutineScope,
-    val navController: NavHostController
+    val snackbarHostState: SnackbarHostState,
 ) {
     private val _showAppBarTitle = MutableStateFlow<String?>(null)
     val showAppBarTitle = _showAppBarTitle.asStateFlow()
 
     fun showSnackbar(message: String, duration: SnackbarDuration = SnackbarDuration.Short) {
         snackbarScope.launch {
-            scaffoldState.snackbarHostState.showSnackbar(
+            snackbarHostState.showSnackbar(
                 message = message,
                 duration = duration
             )
@@ -38,17 +36,13 @@ data class AppContainerState(
 
 @Composable
 fun rememberAppContainerState(
-    scaffoldState: ScaffoldState = rememberScaffoldState(
-        snackbarHostState = remember {
-            SnackbarHostState()
-        }
-    ),
     navController: NavHostController = rememberNavController(),
-    snackbarScope: CoroutineScope = rememberCoroutineScope()
-) = remember(scaffoldState, navController, snackbarScope) {
+    snackbarScope: CoroutineScope = rememberCoroutineScope(),
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
+) = remember(navController, snackbarScope, snackbarHostState) {
     AppContainerState(
-        scaffoldState = scaffoldState,
+        snackbarHostState = snackbarHostState,
         navController = navController,
-        snackbarScope = snackbarScope
+        snackbarScope = snackbarScope,
     )
 }

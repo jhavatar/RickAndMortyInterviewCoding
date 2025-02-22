@@ -1,36 +1,37 @@
 package io.chthonic.rickmortychars.presentation
 
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun AppContainer() {
     val appContainerState = rememberAppContainerState()
     Scaffold(
-        scaffoldState = appContainerState.scaffoldState,
+        modifier = Modifier.fillMaxSize(),
         topBar = {
-            // your top bar
             val appBarTitle = appContainerState.showAppBarTitle.collectAsStateWithLifecycle()
-            TopAppBar(title = { Text(appBarTitle.value ?: "") })
-        },
-        floatingActionButton = {
-            // your floating action button
-        },
-        drawerContent = null,
-        content = { padding ->
-            // your page content
-            AppContainerNavHost(
-                appContainerState = appContainerState,
-                padding = padding
+            TopAppBar(
+                title = { Text(appBarTitle.value ?: "") },
             )
         },
+        floatingActionButton = {
+        },
         bottomBar = {
-            // your bottom bar composable
-        }
-    )
+        },
+    ) { innerPadding ->
+        AppContainerNavHost(
+            appContainerState = appContainerState,
+            modifier = Modifier.padding(innerPadding),
+        )
+    }
 }

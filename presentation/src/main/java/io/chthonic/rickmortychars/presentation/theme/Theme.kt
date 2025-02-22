@@ -1,28 +1,27 @@
 package io.chthonic.rickmortychars.presentation.theme
 
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-private val DarkColors = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
-    secondary = Teal200,
-    secondaryVariant = Teal200,
+private val DarkColorsScheme = darkColorScheme(
+    surface = Purple500,
+    primary = Teal200,
+    secondary = Teal700,
+    onPrimary = Color.White,
+    onSecondary = Color.White,
+    onSurface = Color.White,
+)
+private val LightColorsScheme = lightColorScheme(
+    surface = Purple200,
+    primary = Teal200,
+    primaryContainer = Purple700,
+    secondary = Teal700,
     onPrimary = Color.Black,
     onSecondary = Color.Black,
     onSurface = Color.Black,
-    surface = Purple200 // top app bar
-)
-private val LightColors = lightColors(
-    primary = Purple500, // top app bar
-    primaryVariant = Purple700,
-    secondary = Teal200,
-    secondaryVariant = Teal700,
-    onPrimary = Color.White,
-    onSecondary = Color.Black
 )
 
 @Composable
@@ -31,7 +30,7 @@ fun AppTheme(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
-        colors = if (isDarkTheme) DarkColors else LightColors,
+        colorScheme = if (isDarkTheme) DarkColorsScheme else LightColorsScheme,
         content = content
     )
 }
