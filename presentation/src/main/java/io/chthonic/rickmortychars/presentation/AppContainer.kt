@@ -11,9 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
+@OptIn(ExperimentalMaterial3Api::class)
 fun AppContainer() {
     val appContainerState = rememberAppContainerState()
     Scaffold(
