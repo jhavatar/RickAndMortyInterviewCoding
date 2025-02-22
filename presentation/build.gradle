@@ -18,19 +18,16 @@ android {
         consumerProguardFiles "consumer-rules.pro"
     }
 
-    compileOptions {
-        sourceCompatibility versions.java
-        targetCompatibility versions.java
-    }
-    kotlinOptions {
-        jvmTarget = versions.jvm_target
-    }
     viewBinding {
         enabled = true
     }
     buildFeatures {
         compose true
     }
+}
+
+kotlin {
+    jvmToolchain(libs.versions.jvmTarget.get().toInteger())
 }
 
 dependencies {

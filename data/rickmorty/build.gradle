@@ -16,13 +16,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
-    compileOptions {
-        sourceCompatibility versions.java
-        targetCompatibility versions.java
-    }
-    kotlinOptions {
-        jvmTarget = versions.jvm_target
-    }
+}
+
+kotlin {
+    jvmToolchain(libs.versions.jvmTarget.get().toInteger())
 }
 
 ksp {
